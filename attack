@@ -1,0 +1,76 @@
+hero.equip(iron_sword)
+enemy = Enemy("Enemy", 100, weapon=short_bow)
+
+#commentary 
+speeches = [f"[Enemy] with [weapon] approches!", f"[Enemy] blocked the way!"]
+
+#pause for player to read
+def wait():
+    wait = input("Press Enter to continue...") 
+
+# attack time!
+while True:
+
+    if turn/2 != 1:
+        # player attack ui / player turn
+        os.system('cls')
+        hero.health_bar.draw()
+        enemy.health_bar.draw()
+
+        print ("---------------------------------")
+        print (speeches [1])
+        print ("X : Attack")
+        print ("Z : Items")
+        print ("C : Run")
+        print ("---------------------------------")
+        choice = input("What will you do? : ")
+
+    # choices
+        if choice == "X" or choice == "x" or choice == "Attack" or choice == "attack":
+            hero.attack(enemy)
+            print ("You attacked the enemy!")
+            turn = turn + 1
+            wait()
+        elif choice == "Z" or choice == "z" or choice == "Items" or choice == "items":
+            print ("You used an item!")
+            turn = turn + 1
+            wait()
+        elif choice == "C" or choice == "c" or choice == "Run" or choice == "run":
+            if random.randint(0,1) == 0:    #random chance to run
+                print ("You ran away!")
+                break
+            else:
+                print ("[Enemy] grabbed you before you could run!")
+                turn = turn + 1
+                wait()
+                continue
+        else:
+            print ("Hero looks at you with confusion.")
+            turn = turn + 1
+            wait()
+            continue   
+        
+    # check conditions of hero and enemy 
+        if enemy.health <= 0:
+            os.system('cls')
+            print ("You defeated the enemy!")
+            break
+        elif hero.health <= 0:
+            os.system('cls')
+            print ("You were defeated!")
+            break
+        else:
+            continue
+    
+    else:
+        # enemy attack ui / enemy turn
+        os.system('cls')
+        hero.health_bar.draw()
+        enemy.health_bar.draw()
+
+        print("=================================")
+        print ("[Enemy] attacks!")
+        enemy.attack(hero)
+        print ("=================================")
+        wait()
+        turn = turn + 1
